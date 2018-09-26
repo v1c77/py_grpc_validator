@@ -1,20 +1,21 @@
 syntax = "proto3";
 package hellobro;
 
-option java_outer_classname = "HelloWorldProto";
 option objc_class_prefix = "HLW";
+import "validator.proto";
 
 
 // The bro service definition.
 service Bro {
   // hello to somebody.
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-  rpc SayBye (HelloRequest) returns (HelloReply) {}
+  rpc SayHello (HelloRequest) returns (HelloReply) {};
+  rpc SayBye (HelloRequest) returns (HelloReply) {};
 }
 
 // The request message containing the user's name.
 message HelloRequest {
-  string name = 1;
+  string name = 1 [(validator.field) = {string_not_empty: True}];
+  int32 age = 2 [(validator.field) = {gt: 50, lt: 100}];
 }
 
 // reply

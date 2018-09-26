@@ -7,20 +7,22 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
+import validator_pb2 as validator__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='hello_bro.proto',
   package='hellobro',
   syntax='proto3',
-  serialized_pb=_b('\n\x0fhello_bro.proto\x12\x08hellobro\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\")\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\n\n\x02\x62y\x18\x02 \x01(\t2{\n\x03\x42ro\x12:\n\x08SayHello\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x12\x38\n\x06SayBye\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x42\x17\x42\x0fHelloWorldProto\xa2\x02\x03HLWb\x06proto3')
-)
+  serialized_options=_b('\242\002\003HLW'),
+  serialized_pb=_b('\n\x0fhello_bro.proto\x12\x08hellobro\x1a\x0fvalidator.proto\";\n\x0cHelloRequest\x12\x14\n\x04name\x18\x01 \x01(\tB\x06\x9a\xe0\x1f\x02`\x01\x12\x15\n\x03\x61ge\x18\x02 \x01(\x05\x42\x08\x9a\xe0\x1f\x04\x10\x32\x18\x64\")\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\n\n\x02\x62y\x18\x02 \x01(\t2{\n\x03\x42ro\x12:\n\x08SayHello\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x12\x38\n\x06SayBye\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x42\x06\xa2\x02\x03HLWb\x06proto3')
+  ,
+  dependencies=[validator__pb2.DESCRIPTOR,])
 
 
 
@@ -38,21 +40,28 @@ _HELLOREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      serialized_options=_b('\232\340\037\002`\001'), file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='age', full_name='hellobro.HelloRequest.age', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=_b('\232\340\037\004\0202\030d'), file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=29,
-  serialized_end=57,
+  serialized_start=46,
+  serialized_end=105,
 )
 
 
@@ -69,28 +78,28 @@ _HELLOREPLY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='by', full_name='hellobro.HelloReply.by', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=59,
-  serialized_end=100,
+  serialized_start=107,
+  serialized_end=148,
 )
 
 DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
@@ -112,17 +121,18 @@ HelloReply = _reflection.GeneratedProtocolMessageType('HelloReply', (_message.Me
 _sym_db.RegisterMessage(HelloReply)
 
 
-DESCRIPTOR.has_options = True
-DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('B\017HelloWorldProto\242\002\003HLW'))
+DESCRIPTOR._options = None
+_HELLOREQUEST.fields_by_name['name']._options = None
+_HELLOREQUEST.fields_by_name['age']._options = None
 
 _BRO = _descriptor.ServiceDescriptor(
   name='Bro',
   full_name='hellobro.Bro',
   file=DESCRIPTOR,
   index=0,
-  options=None,
-  serialized_start=102,
-  serialized_end=225,
+  serialized_options=None,
+  serialized_start=150,
+  serialized_end=273,
   methods=[
   _descriptor.MethodDescriptor(
     name='SayHello',
@@ -131,7 +141,7 @@ _BRO = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_HELLOREQUEST,
     output_type=_HELLOREPLY,
-    options=None,
+    serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='SayBye',
@@ -140,7 +150,7 @@ _BRO = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_HELLOREQUEST,
     output_type=_HELLOREPLY,
-    options=None,
+    serialized_options=None,
   ),
 ])
 _sym_db.RegisterServiceDescriptor(_BRO)

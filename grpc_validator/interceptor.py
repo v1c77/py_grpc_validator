@@ -29,10 +29,12 @@ class Validator(six.with_metaclass(abc.ABCMeta)):
 class GrpcServerValidator(grpc.ServerInterceptor, Validator):
 
     def validator(self):
+        print('in validator')
         pass
 
     def intercept_service(self, continuation, handler_call_details):
-
+        print(dir(continuation))
+        print(dir(handler_call_details))
         pass
 
 
