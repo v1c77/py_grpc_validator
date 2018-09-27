@@ -1,4 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from .interceptor import GrpcServerValidator
-
+from .interceptor import GrpcServerValidateInterceptor

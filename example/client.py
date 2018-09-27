@@ -14,10 +14,7 @@ def run():
     # of the code.
     channel = grpc.insecure_channel('localhost:1947')
     stub = hello_bro_pb2_grpc.BroStub(channel)
-    # response1 = stub.SayHello(hello_bro_pb2.HelloRequest(name='you'))
-    # print("Greeter client received: " + response1.message)
-    stub.SayBye(hello_bro_pb2.HelloRequest(name='vici'))
-    # print('never say bye.')  # server exception...
+    stub.SayHello(hello_bro_pb2.HelloRequest(name='you'))
 
 
 if __name__ == '__main__':

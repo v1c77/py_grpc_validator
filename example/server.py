@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-
-from concurrent import futures
+import six
 import time
 import logging
 import sys
+from concurrent import futures
+
 import grpc
+from grpc_validator.validator import ValidateMetaclass
 
 from example import hello_bro_pb2
 from example import hello_bro_pb2_grpc
-from grpc_validator import GrpcServerValidator
 
 
 root = logging.getLogger()
@@ -36,10 +37,15 @@ def func_cost():
     print('down')
 
 
-class Bro(hello_bro_pb2_grpc.BroServicer):
+class Bro(six.with_metaclass(ValidateMetaclass,
+                             hello_bro_pb2_grpc.BroServicer)):
+
+    def __getattr__(self, item):
+        _attr = super(Bro, self).__getattr__(item)
 
     def SayHello(self, request, context):
         root.info('trace')
+
         return hello_bro_pb2.HelloReply(
             message='Hello, %s!' % request.name,
             by=request.name)
@@ -51,9 +57,7 @@ class Bro(hello_bro_pb2_grpc.BroServicer):
 
 
 def serve():
-    validator = GrpcServerValidator()
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=65),
-                         interceptors=(validator,))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=65))
     hello_bro_pb2_grpc.add_BroServicer_to_server(Bro(), server)
     port = server.add_insecure_port('[::]:1947')
     print("port at {}".format(port))
