@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from functools import wraps, partial
 import logging
+from functools import wraps
+
+import grpc
 
 from grpc_validator.validator_pb2 import FieldValidator, field
-
-ERROR_DETAIL = '12312'
+from grpc_validator import IllegalFieldValueError
 
 logger = logging.getLogger(__name__)
 
@@ -13,86 +14,69 @@ logger = logging.getLogger(__name__)
 
 def validate_regex(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_gt(value, limit):
-    print('in gt')
-    return True, 'ok'
+    return value > limit
 
 
 def validate_lt(value, limit):
-    print('in lt')
-
-    return True, 'ok'
+    return value < limit
 
 
 def validate_gte(value, limit):
-
-    return True, 'ok'
+    return value >= limit
 
 
 def validate_lte(value, limit):
-
-    return True, 'ok'
-
-
-def validate_float_gt(value, limit):
-    return True, 'ok'
+    return value <= limit
 
 
-def validate_float_lt(value, limit):
-    return True, 'ok'
-
-
-def validate_float_gte(value, limit):
-
-    return True, 'ok'
-
-
-def validate_float_lte(value, limit):
-
-    return True, 'ok'
+validate_float_gt = validate_gt
+validate_float_lt = validate_lt
+validate_float_gte = validate_gte
+validate_float_lte = validate_lte
 
 
 def validate_msg_exists(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_human_error(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_string_not_empty(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_repeated_count_min(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_repeated_count_max(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_length_gt(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_length_lt(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 def validate_length_eq(value, limit):
 
-    return True, 'ok'
+    return True
 
 
 DESC = FieldValidator.DESCRIPTOR
@@ -121,11 +105,11 @@ def get_validator_by_number(option_number):
     return VALIDATOR_MAP.get(option_number)
 
 
-def terminate(context, detail):
+def terminate(context, code, detail):
     """abort to serve this request and throw grpc error"""
 
     # TODO(vici) get code from giagnose detail.
-    context.abort(detail, detail)
+    context.abort(code, detail)
 
 
 def gen_field_to_check(message):
@@ -189,15 +173,8 @@ def validate_message(message):
     return nothing or raise ValueError
 
     """
-    try:
-        for value, field_desc in gen_field_to_check(message):
-            validate_field(value, field_desc)
-    except Exception as e:
-        print('error in validate message')
-        logger.exception(e)
-        pass
-
-    return
+    for value, field_desc in gen_field_to_check(message):
+        validate_field(value, field_desc)
 
 
 def validate_field(value, field_desc):
@@ -219,9 +196,9 @@ def validate_field(value, field_desc):
     for condition, limit in conditions:
 
         worker = get_validator_by_number(condition.number)
-        ok, detail = worker(value, limit)
-        if not ok:
-            return detail
+        if not worker(value, limit):
+            raise IllegalFieldValueError('{} with illegal value: {}.'
+                                         .format(field_desc.full_name, value))
 
 
 def validator_wrap(func):
@@ -230,9 +207,11 @@ def validator_wrap(func):
     def wrapper(self, request, context):
         try:
             validate_message(request)
+        except IllegalFieldValueError as e:
+            return terminate(context, grpc.StatusCode.INVALID_ARGUMENT,
+                             e.message)
         except Exception as e:
             logger.exception(e)
-            return terminate(context, ERROR_DETAIL)
 
         return func(self, request, context)
     return wrapper

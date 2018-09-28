@@ -3,3 +3,7 @@
 
 class ValidateEexception(Exception):
     pass
+
+
+class IllegalFieldValueError(ValueError):
+    pass
