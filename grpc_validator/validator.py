@@ -9,6 +9,118 @@ ERROR_DETAIL = '12312'
 logger = logging.getLogger(__name__)
 
 
+# validate the value, func is better than magic.
+
+def validate_regex(value, limit):
+
+    return True, 'ok'
+
+
+def validate_gt(value, limit):
+    print('in gt')
+    return True, 'ok'
+
+
+def validate_lt(value, limit):
+    print('in lt')
+
+    return True, 'ok'
+
+
+def validate_gte(value, limit):
+
+    return True, 'ok'
+
+
+def validate_lte(value, limit):
+
+    return True, 'ok'
+
+
+def validate_float_gt(value, limit):
+    return True, 'ok'
+
+
+def validate_float_lt(value, limit):
+    return True, 'ok'
+
+
+def validate_float_gte(value, limit):
+
+    return True, 'ok'
+
+
+def validate_float_lte(value, limit):
+
+    return True, 'ok'
+
+
+def validate_msg_exists(value, limit):
+
+    return True, 'ok'
+
+
+def validate_human_error(value, limit):
+
+    return True, 'ok'
+
+
+def validate_string_not_empty(value, limit):
+
+    return True, 'ok'
+
+
+def validate_repeated_count_min(value, limit):
+
+    return True, 'ok'
+
+
+def validate_repeated_count_max(value, limit):
+
+    return True, 'ok'
+
+
+def validate_length_gt(value, limit):
+
+    return True, 'ok'
+
+
+def validate_length_lt(value, limit):
+
+    return True, 'ok'
+
+
+def validate_length_eq(value, limit):
+
+    return True, 'ok'
+
+
+DESC = FieldValidator.DESCRIPTOR
+VALIDATOR_MAP = {
+    DESC.fields_by_name['regex'].number: validate_regex,
+    DESC.fields_by_name['gt'].number: validate_gt,
+    DESC.fields_by_name['lt'].number: validate_lt,
+    DESC.fields_by_name['gte'].number: validate_gte,
+    DESC.fields_by_name['lte'].number: validate_lte,
+    DESC.fields_by_name['float_gt'].number: validate_float_gt,
+    DESC.fields_by_name['float_lt'].number: validate_float_lt,
+    DESC.fields_by_name['float_gte'].number: validate_float_gte,
+    DESC.fields_by_name['float_lte'].number: validate_float_lte,
+    DESC.fields_by_name['msg_exists'].number: validate_msg_exists,
+    DESC.fields_by_name['human_error'].number: validate_human_error,
+    DESC.fields_by_name['string_not_empty'].number: validate_string_not_empty,  # NOQA
+    DESC.fields_by_name['repeated_count_min'].number: validate_repeated_count_min,  # NOQA
+    DESC.fields_by_name['repeated_count_max'].number: validate_repeated_count_max,  # NOQA
+    DESC.fields_by_name['length_gt'].number: validate_length_gt,
+    DESC.fields_by_name['length_lt'].number: validate_length_lt,
+    DESC.fields_by_name['length_eq'].number: validate_length_eq,
+}
+
+
+def get_validator_by_number(option_number):
+    return VALIDATOR_MAP.get(option_number)
+
+
 def terminate(context, detail):
     """abort to serve this request and throw grpc error"""
 
@@ -78,7 +190,8 @@ def validate_message(message):
 
     """
     try:
-        list(map(validate_field, gen_field_to_check(message)))
+        for value, field_desc in gen_field_to_check(message):
+            validate_field(value, field_desc)
     except Exception as e:
         print('error in validate message')
         logger.exception(e)
@@ -105,7 +218,7 @@ def validate_field(value, field_desc):
 
     for condition, limit in conditions:
 
-        worker = ProtoValidator.get_validator_by_number(condition.number)
+        worker = get_validator_by_number(condition.number)
         ok, detail = worker(value, limit)
         if not ok:
             return detail
@@ -134,121 +247,3 @@ class ValidateMetaclass(type):
                 attrs[attr] = validator_wrap(value)
 
         return type.__new__(mcs, name, bases, attrs)
-
-
-class ProtoValidator(object):
-
-    desc = FieldValidator.DESCRIPTOR
-
-    @classmethod
-    def get_field_validator_by_option(cls, option):
-        pass
-
-    # validate the value, func is better than magic.
-    @staticmethod
-    def validate_regex(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_gt(value, limit):
-        print('in gt')
-        return True
-
-    @staticmethod
-    def validate_lt(value, limit):
-        print('in lt')
-
-        return True
-
-    @staticmethod
-    def validate_gte(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_lte(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_float_gt(value, limit):
-        return True
-
-    @staticmethod
-    def validate_float_lt(value, limit):
-        return True
-
-    @staticmethod
-    def validate_float_gte(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_float_lte(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_msg_exists(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_human_error(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_string_not_empty(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_repeated_count_min(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_repeated_count_max(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_length_gt(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_length_lt(value, limit):
-
-        return True
-
-    @staticmethod
-    def validate_length_eq(value, limit):
-
-        return True
-
-    validator_map = {
-        desc.fields_by_name['regex'].number: validate_regex,
-        desc.fields_by_name['gt'].number: validate_gt,
-        desc.fields_by_name['lt'].number: validate_lt,
-        desc.fields_by_name['gte'].number: validate_gte,
-        desc.fields_by_name['lte'].number: validate_lte,
-        desc.fields_by_name['float_gt'].number: validate_float_gt,
-        desc.fields_by_name['float_lt'].number: validate_float_lt,
-        desc.fields_by_name['float_gte'].number: validate_float_gte,
-        desc.fields_by_name['float_lte'].number: validate_float_lte,
-        desc.fields_by_name['msg_exists'].number: validate_msg_exists,
-        desc.fields_by_name['human_error'].number: validate_human_error,
-        desc.fields_by_name['string_not_empty'].number: validate_string_not_empty,  # NOQA
-        desc.fields_by_name['repeated_count_min'].number: validate_repeated_count_min,  # NOQA
-        desc.fields_by_name['repeated_count_max'].number: validate_repeated_count_max,  # NOQA
-        desc.fields_by_name['length_gt'].number: validate_length_gt,
-        desc.fields_by_name['length_lt'].number: validate_length_lt,
-        desc.fields_by_name['length_eq'].number: validate_length_eq,
-    }
-
-    @classmethod
-    def get_validator_by_number(cls, option_number):
-        return cls.validator_map.get(option_number)
