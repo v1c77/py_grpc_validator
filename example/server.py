@@ -40,9 +40,6 @@ def func_cost():
 class Bro(six.with_metaclass(ValidateMetaclass,
                              hello_bro_pb2_grpc.BroServicer)):
 
-    def __getattr__(self, item):
-        _attr = super(Bro, self).__getattr__(item)
-
     def SayHello(self, request, context):
         root.info('trace')
 

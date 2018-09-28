@@ -1,3 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from .interceptor import GrpcServerValidateInterceptor
+
+class ValidateEexception(Exception):
+    pass
