@@ -14,7 +14,7 @@ def run():
     # of the code.
     channel = grpc.insecure_channel('localhost:1947')
     stub = hello_bro_pb2_grpc.BroStub(channel)
-    stub.SayHello(hello_bro_pb2.HelloRequest(name='you'))
+    stub.SayHello(hello_bro_pb2.HelloRequest(name='vici', age=54))
 
 
 if __name__ == '__main__':

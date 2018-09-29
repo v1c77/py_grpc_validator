@@ -2,9 +2,13 @@
 import logging
 from functools import wraps
 
-import grpc
+import six
+from grpc import StatusCode
 
-from grpc_validator.validator_pb2 import FieldValidator, field
+from grpc_validator.validator_pb2 import (
+    FieldValidator,
+    field as validator_field,
+)
 from grpc_validator import IllegalFieldValueError
 
 logger = logging.getLogger(__name__)
@@ -39,14 +43,9 @@ validate_float_gte = validate_gte
 validate_float_lte = validate_lte
 
 
+# TODO(vici) logic....
 def validate_msg_exists(value, limit):
-
-    return True
-
-
-def validate_human_error(value, limit):
-
-    return True
+    return True if bool(value.ByteSize()) == limit else False
 
 
 def validate_string_not_empty(value, limit):
@@ -65,18 +64,18 @@ def validate_repeated_count_max(value, limit):
 
 
 def validate_length_gt(value, limit):
-
-    return True
+    text = six.text_type(value)
+    return len(text) > limit
 
 
 def validate_length_lt(value, limit):
-
-    return True
+    text = six.text_type(value)
+    return len(text) < limit
 
 
 def validate_length_eq(value, limit):
-
-    return True
+    text = six.text_type(value)
+    return len(text) == limit
 
 
 DESC = FieldValidator.DESCRIPTOR
@@ -91,7 +90,6 @@ VALIDATOR_MAP = {
     DESC.fields_by_name['float_gte'].number: validate_float_gte,
     DESC.fields_by_name['float_lte'].number: validate_float_lte,
     DESC.fields_by_name['msg_exists'].number: validate_msg_exists,
-    DESC.fields_by_name['human_error'].number: validate_human_error,
     DESC.fields_by_name['string_not_empty'].number: validate_string_not_empty,  # NOQA
     DESC.fields_by_name['repeated_count_min'].number: validate_repeated_count_min,  # NOQA
     DESC.fields_by_name['repeated_count_max'].number: validate_repeated_count_max,  # NOQA
@@ -121,19 +119,20 @@ def gen_field_to_check(message):
 
 
 def validate_message(message):
-    """do request validate with message info and request message descriptor
-    what a messgae descriptor include:
+    """do request validate with a inited message
 
-      name: (str) Name of this protocol message type.
-    full_name: (str) Fully-qualified name of this protocol message type,
-      which will include protocol "package" name and the name of any
-      enclosing types.
+    what a message descriptor structure?
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    containing_type: (Descriptor) Reference to the descriptor of the
-      type containing us, or None if this is top-level.
+    name: (str) Name of this protocol message type.
+    full_name: (str) Fully-qualified name of this protocol message type,which
+      will include protocol "package" name and the name of any enclosing types.
 
-    fields: (list of FieldDescriptors) Field descriptors for all
-      fields in this type.
+    containing_type: (Descriptor) Reference to the descriptor of the type
+      containing us, or None if this is top-level.
+
+    fields: (list of FieldDescriptors) Field descriptors for all fields in this
+      type.
     fields_by_number: (dict int -> FieldDescriptor) Same FieldDescriptor
       objects as in |fields|, but indexed by "number" attribute in each
       FieldDescriptor.
@@ -141,19 +140,18 @@ def validate_message(message):
       objects as in |fields|, but indexed by "name" attribute in each
       FieldDescriptor.
 
-    nested_types: (list of Descriptors) Descriptor references
-      for all protocol message types nested within this one.
-    nested_types_by_name: (dict str -> Descriptor) Same Descriptor
-      objects as in |nested_types|, but indexed by "name" attribute
-      in each Descriptor.
+    nested_types: (list of Descriptors) Descriptor references for all protocol
+      message types nested within this one.
+    nested_types_by_name: (dict str -> Descriptor) Same Descriptor objects as
+      in |nested_types|, but indexed by "name" attribute in each Descriptor.
 
     enum_types: (list of EnumDescriptors) EnumDescriptor references
       for all enums contained within this type.
     enum_types_by_name: (dict str ->EnumDescriptor) Same EnumDescriptor
-      objects as in |enum_types|, but indexed by "name" attribute
-      in each EnumDescriptor.
-    enum_values_by_name: (dict str -> EnumValueDescriptor) Dict mapping
-      from enum value name to EnumValueDescriptor for that value.
+      objects as in |enum_types|, but indexed by "name" attribute in each
+      EnumDescriptor.
+    enum_values_by_name: (dict str -> EnumValueDescriptor) Dict mapping from
+      enum value name to EnumValueDescriptor for that value.
 
     extensions: (list of FieldDescriptor) All extensions defined directly
       within this message type (NOT within a nested type).
@@ -162,14 +160,13 @@ def validate_message(message):
     FieldDescriptor.
 
     is_extendable:  does this type define any extension ranges?
-
     options: (descriptor_pb2.MessageOptions) Protocol message options or None
       to use default message options.
-
     file: (FileDescriptor) Reference to file descriptor.
+    -------------------------------------------------------------------------
 
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    just for field & nested_field.
+    the validator only work on check for the value error of field &
+    nested_field & field wish message_type
     return nothing or raise ValueError
 
     """
@@ -177,28 +174,48 @@ def validate_message(message):
         validate_field(value, field_desc)
 
 
+def _get_human_error(conditions):
+    human_error_number = DESC.fields_by_name['human_error'].number
+    for condition, limit in conditions:
+        if condition.number == human_error_number:
+            return limit
+    return None
+
+
 def validate_field(value, field_desc):
     """return nothing or raise valueError"""
 
-    # TODO(vici) handle sub message
-    # if 'value是 messgae':
-    #     validate_message(value)
-    #     return
+    # TODO(vici) handle sub message and nested_message
+    if field_desc.message_type:
+        validate_message(value)
 
     # iter all field option check
     options = field_desc.GetOptions()
-    validator_option = options.Extensions[field]
+    validator_option = options.Extensions[validator_field]  # TODO(vici) soft get?
     if not validator_option:
         # do not check if no validator option
         return
     conditions = validator_option.ListFields()
 
+    human_error = ''
     for condition, limit in conditions:
-
+        conditions.pop(0)
         worker = get_validator_by_number(condition.number)
+        if condition.number == DESC.fields_by_name['human_error'].number:
+            human_error = limit
+            continue
         if not worker(value, limit):
-            raise IllegalFieldValueError('{} with illegal value: {}.'
+            if human_error:
+                raise IllegalFieldValueError(human_error)
+            elif conditions:
+                human_error = _get_human_error(conditions)
+                if human_error:
+                    raise IllegalFieldValueError(human_error)
+
+            raise IllegalFieldValueError('validation error: {} with illegal '
+                                         'value: {}.'
                                          .format(field_desc.full_name, value))
+
 
 
 def validator_wrap(func):
@@ -208,7 +225,7 @@ def validator_wrap(func):
         try:
             validate_message(request)
         except IllegalFieldValueError as e:
-            return terminate(context, grpc.StatusCode.INVALID_ARGUMENT,
+            return terminate(context, StatusCode.INVALID_ARGUMENT,
                              e.message)
         except Exception as e:
             logger.exception(e)
