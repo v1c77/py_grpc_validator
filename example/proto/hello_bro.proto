@@ -7,30 +7,30 @@ import "validator.proto";
 
 // The bro service definition.
 service Bro {
-  // hello to somebody.
-  rpc SayHello (HelloRequest) returns (HelloReply) {};
-  rpc SayBye (HelloRequest) returns (HelloReply) {};
+    // hello to somebody.
+    rpc SayHello (HelloRequest) returns (HelloReply) {};
+    rpc SayBye (HelloRequest) returns (HelloReply) {};
 }
 
 message Dau {
-  string mail = 1 [(validator.field) = {regex: "^1(3|4|5|7|8)\\d{9}$" }];
+    string mail = 1 [(validator.field) = {regex: "^1(3|4|5|7|8)\\d{9}$" }];
 }
 
 // The request message containing the user's name.
 message HelloRequest {
-  string name = 1 [(validator.field) = {string_not_empty: True}];
-  int32 age = 2 [(validator.field) = {gt: 50, lt: 100}];
+    string name = 1 [(validator.field) = {string_not_empty: True}];
+    int32 age = 2 [(validator.field) = {gt: 50, lt: 100}];
 
-  message Child {
+    message Child {
     string name = 1 [(validator.field) = {length_eq: 4}];
     float weight = 2 [(validator.field) = {float_gt: 60.4, float_lt: 100}];
-  }
+    }
 
-  Child child = 3 [(validator.field) = {msg_exists: True}];
-  Dau dau = 4;
+    Child child = 3 [(validator.field) = {msg_exists: True}];
+    Dau dau = 4;
+    string categray = 5;
 
 }
-
 
 // reply
 message HelloReply {

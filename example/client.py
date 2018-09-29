@@ -6,6 +6,7 @@ import grpc
 
 from example import hello_bro_pb2
 from example import hello_bro_pb2_grpc
+from google.protobuf.json_format import ParseDict
 
 
 def run():
@@ -14,7 +15,22 @@ def run():
     # of the code.
     channel = grpc.insecure_channel('localhost:1947')
     stub = hello_bro_pb2_grpc.BroStub(channel)
-    stub.SayHello(hello_bro_pb2.HelloRequest(name='vici', age=54))
+    hello_dict = {
+        'name': 'vici.sigma',
+        'age': 56,
+        'child': {
+            'name': 'v1c1',
+            'weight': 66.66,
+        },
+        'dau': {
+            'mail': '13522455567'
+        }
+    }
+    hello_requst = ParseDict(
+                hello_dict,
+                hello_bro_pb2.HelloRequest(),
+            )
+    stub.SayHello(hello_requst)
 
 
 if __name__ == '__main__':

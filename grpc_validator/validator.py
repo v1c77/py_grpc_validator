@@ -49,18 +49,15 @@ def validate_msg_exists(value, limit):
 
 
 def validate_string_not_empty(value, limit):
-
-    return True
+    return bool(value) == limit
 
 
 def validate_repeated_count_min(value, limit):
-
-    return True
+    return len(value) >= limit
 
 
 def validate_repeated_count_max(value, limit):
-
-    return True
+    return len(value) <= limit
 
 
 def validate_length_gt(value, limit):
@@ -214,8 +211,8 @@ def validate_field(value, field_desc):
 
             raise IllegalFieldValueError('validation error: {} with illegal '
                                          'value: {}.'
-                                         .format(field_desc.full_name, value))
-
+                                         .format(field_desc.full_name,
+                                                 value or 'None'))
 
 
 def validator_wrap(func):
