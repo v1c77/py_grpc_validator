@@ -78,10 +78,10 @@ def validate_length_eq(value, limit):
 DESC = FieldValidator.DESCRIPTOR
 VALIDATOR_MAP = {
     DESC.fields_by_name['regex'].number: validate_regex,
-    DESC.fields_by_name['gt'].number: validate_gt,
-    DESC.fields_by_name['lt'].number: validate_lt,
-    DESC.fields_by_name['gte'].number: validate_gte,
-    DESC.fields_by_name['lte'].number: validate_lte,
+    DESC.fields_by_name['int_gt'].number: validate_gt,
+    DESC.fields_by_name['int_lt'].number: validate_lt,
+    DESC.fields_by_name['int_gte'].number: validate_gte,
+    DESC.fields_by_name['int_lte'].number: validate_lte,
     DESC.fields_by_name['float_gt'].number: validate_float_gt,
     DESC.fields_by_name['float_lt'].number: validate_float_lt,
     DESC.fields_by_name['float_gte'].number: validate_float_gte,

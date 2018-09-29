@@ -19,7 +19,7 @@ message Dau {
 // The request message containing the user's name.
 message HelloRequest {
     string name = 1 [(validator.field) = {string_not_empty: True}];
-    int32 age = 2 [(validator.field) = {gt: 50, lt: 100}];
+    int32 age = 2 [(validator.field) = {int_gt: 50, int_lt: 100}];
 
     message Child {
     string name = 1 [(validator.field) = {length_eq: 4}];
