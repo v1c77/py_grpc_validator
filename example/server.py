@@ -6,7 +6,7 @@ import sys
 from concurrent import futures
 
 import grpc
-from grpc_validator.validator import ValidateMetaclass
+from grpc_proto_validator.validator import ValidateMetaclass
 
 from example import hello_bro_pb2
 from example import hello_bro_pb2_grpc

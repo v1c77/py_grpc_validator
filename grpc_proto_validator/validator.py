@@ -5,11 +5,11 @@ from functools import wraps
 import six
 from grpc import StatusCode
 
-from grpc_validator.validator_pb2 import (
+from grpc_proto_validator.validator_pb2 import (
     FieldValidator,
     field as validator_field,
 )
-from grpc_validator import IllegalFieldValueError
+from grpc_proto_validator import IllegalFieldValueError
 
 logger = logging.getLogger(__name__)
 

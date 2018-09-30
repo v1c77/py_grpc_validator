@@ -29,17 +29,20 @@ How To
 
 .. code-block:: bash
 
-    $ python -m grpc_tools.protoc --proto_path=./proto \
-     --proto_path=./example/proto \
-     example/proto/validator.proto
+    $ python -m grpc_tools.protoc
+      --proto_path={/path/to/validator/proto} \
+      --proto_path={/path/to/your/project/proto} \
+      --python_out={/path/to/project/src} \
+      {/path/to/validator/proto}/validator.proto
 
 .. code-block:: bash
 
     $ python -m grpc_tools.protoc --proto_path=./proto \
-     --proto_path=./example/proto \
-     --python_out=./example/ \
-     --grpc_python_out=./example/ \
-     example/proto/hello_bro.proto
+      --proto_path={/path/to/validator/proto} \
+      --proto_path={/path/to/your/project/proto} \
+      --python_out={/path/to/project/src} \
+      --grpc_python_out={/path/to/project/src} \
+      example/proto/hello_bro.proto
 
 3. change your service code. (just a little.)
 
@@ -57,7 +60,7 @@ to validate all the service handlers:
             ...
 
 
-Also you can specify which service handler to do the field check:
+Also you can select individual service handler to do the field check:
 
 .. code-block:: python
 
@@ -86,7 +89,7 @@ But please don't mix these two proto files.
 
 Any help or idea is favourably receive. Please just make a issue_.
 
-LCIENSE
+LICENSE
 =======
 TODO
 
