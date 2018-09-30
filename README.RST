@@ -2,10 +2,13 @@ python grpc validator
 ~~~~~~~~~~~~~~~~~~~~~
 plugin of validate request field for python grpc server.
 
+.. image:: https://travis-ci.com/v1c77/py_grpc_validator.svg?branch=master
+    :target: https://travis-ci.com/v1c77/py_grpc_validator
+
 TODO:
     - type hint for different field type.(such as only string field can do
       a string length check.)
-    - test case & Makefile. & LICENSE
+    - test case & Makefile.
     - a cli to help protoc with `validator.proto`.
     - anymore bugs or improves?
 
