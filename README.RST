@@ -5,7 +5,7 @@ plugin of validate request field for python grpc server.
 TODO:
     - type hint for different field type.(such as only string field can do
       a string length check.)
-    - setup tool & test case & Makefile. & LICENSE & push to pypi repo
+    - test case & Makefile. & LICENSE
     - a cli to help protoc with `validator.proto`.
     - anymore bugs or improves?
 
@@ -29,7 +29,7 @@ How To
 
 .. code-block:: bash
 
-    $ python -m grpc_tools.protoc
+    $ python -m grpc_tools.protoc \
       --proto_path={/path/to/validator/proto} \
       --proto_path={/path/to/your/project/proto} \
       --python_out={/path/to/project/src} \
@@ -37,7 +37,7 @@ How To
 
 .. code-block:: bash
 
-    $ python -m grpc_tools.protoc --proto_path=./proto \
+    $ python -m grpc_tools.protoc \
       --proto_path={/path/to/validator/proto} \
       --proto_path={/path/to/your/project/proto} \
       --python_out={/path/to/project/src} \
@@ -91,8 +91,9 @@ Any help or idea is favourably receive. Please just make a issue_.
 
 LICENSE
 =======
-TODO
+MIT_.
 
 .. _ecosystem: https://github.com/grpc-ecosystem/go-grpc-middleware/tree/master/validator
 .. _go-proto-validator: https://github.com/mwitkow/go-proto-validators
 .. _issue: https://github.com/v1c77/py_grpc_validator/issues/new
+.. _MIT: https://github.com/v1c77/py_grpc_validator/blob/master/LICENSE

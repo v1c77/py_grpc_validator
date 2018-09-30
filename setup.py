@@ -6,6 +6,7 @@ import re
 import ast
 import codecs
 import setuptools
+import setuptools.command.test
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='validator',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0fvalidator.proto\x12\tvalidator\x1a google/protobuf/descriptor.proto\"\xcf\x02\n\x0e\x46ieldValidator\x12\r\n\x05regex\x18\x01 \x01(\t\x12\n\n\x02gt\x18\x02 \x01(\x03\x12\n\n\x02lt\x18\x03 \x01(\x03\x12\x0b\n\x03gte\x18\x04 \x01(\x03\x12\x0b\n\x03lte\x18\x05 \x01(\x03\x12\x10\n\x08\x66loat_gt\x18\x06 \x01(\x01\x12\x10\n\x08\x66loat_lt\x18\x07 \x01(\x01\x12\x11\n\tfloat_gte\x18\x08 \x01(\x01\x12\x11\n\tfloat_lte\x18\t \x01(\x01\x12\x12\n\nmsg_exists\x18\n \x01(\x08\x12\x13\n\x0bhuman_error\x18\x0b \x01(\t\x12\x18\n\x10string_not_empty\x18\x0c \x01(\x08\x12\x1a\n\x12repeated_count_min\x18\r \x01(\x03\x12\x1a\n\x12repeated_count_max\x18\x0e \x01(\x03\x12\x11\n\tlength_gt\x18\x0f \x01(\x03\x12\x11\n\tlength_lt\x18\x10 \x01(\x03\x12\x11\n\tlength_eq\x18\x11 \x01(\x03:I\n\x05\x66ield\x12\x1d.google.protobuf.FieldOptions\x18\x83\xfc\x03 \x01(\x0b\x32\x19.validator.FieldValidatorb\x06proto3')
+  serialized_pb=_b('\n\x0fvalidator.proto\x12\tvalidator\x1a google/protobuf/descriptor.proto\"\xdf\x02\n\x0e\x46ieldValidator\x12\r\n\x05regex\x18\x01 \x01(\t\x12\x0e\n\x06int_gt\x18\x02 \x01(\x03\x12\x0e\n\x06int_lt\x18\x03 \x01(\x03\x12\x0f\n\x07int_gte\x18\x04 \x01(\x03\x12\x0f\n\x07int_lte\x18\x05 \x01(\x03\x12\x10\n\x08\x66loat_gt\x18\x06 \x01(\x01\x12\x10\n\x08\x66loat_lt\x18\x07 \x01(\x01\x12\x11\n\tfloat_gte\x18\x08 \x01(\x01\x12\x11\n\tfloat_lte\x18\t \x01(\x01\x12\x12\n\nmsg_exists\x18\n \x01(\x08\x12\x13\n\x0bhuman_error\x18\x0b \x01(\t\x12\x18\n\x10string_not_empty\x18\x0c \x01(\x08\x12\x1a\n\x12repeated_count_min\x18\r \x01(\x03\x12\x1a\n\x12repeated_count_max\x18\x0e \x01(\x03\x12\x11\n\tlength_gt\x18\x0f \x01(\x03\x12\x11\n\tlength_lt\x18\x10 \x01(\x03\x12\x11\n\tlength_eq\x18\x11 \x01(\x03:I\n\x05\x66ield\x12\x1d.google.protobuf.FieldOptions\x18\x83\xfc\x03 \x01(\x0b\x32\x19.validator.FieldValidatorb\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_descriptor__pb2.DESCRIPTOR,])
 
@@ -50,28 +50,28 @@ _FIELDVALIDATOR = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='gt', full_name='validator.FieldValidator.gt', index=1,
+      name='int_gt', full_name='validator.FieldValidator.int_gt', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lt', full_name='validator.FieldValidator.lt', index=2,
+      name='int_lt', full_name='validator.FieldValidator.int_lt', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='gte', full_name='validator.FieldValidator.gte', index=3,
+      name='int_gte', full_name='validator.FieldValidator.int_gte', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='lte', full_name='validator.FieldValidator.lte', index=4,
+      name='int_lte', full_name='validator.FieldValidator.int_lte', index=4,
       number=5, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -174,7 +174,7 @@ _FIELDVALIDATOR = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=65,
-  serialized_end=400,
+  serialized_end=416,
 )
 
 DESCRIPTOR.message_types_by_name['FieldValidator'] = _FIELDVALIDATOR

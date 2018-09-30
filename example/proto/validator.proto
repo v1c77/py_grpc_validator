@@ -14,11 +14,11 @@ message FieldValidator {
   // Uses a Golang RE2-syntax regex to match the field contents.
   string regex = 1;
   // Field value of integer strictly greater than this value.
-  int64 gt = 2;
+  int64 int_gt = 2;
   // Field value of integer strictly smaller than this value.
-  int64 lt = 3;
-  int64 gte = 4;
-  int64 lte = 5;
+  int64 int_lt = 3;
+  int64 int_gte = 4;
+  int64 int_lte = 5;
   double float_gt = 6;
   // Floating-point value compared to which the field content should be smaller or equal.
   double float_lt = 7;
