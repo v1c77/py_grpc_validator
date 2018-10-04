@@ -16,8 +16,11 @@ logger = logging.getLogger(__name__)
 
 # validate the value, func is better than magic.
 
-def validate_regex(value, limit):
+# TODO(vici) all the worker should with check with proto type.
 
+
+def validate_regex(value, limit):
+    # TODO(vici) to check value with a escaped regex string.
     return True
 
 
@@ -188,7 +191,8 @@ def validate_field(value, field_desc):
 
     # iter all field option check
     options = field_desc.GetOptions()
-    validator_option = options.Extensions[validator_field]  # TODO(vici) soft get?
+    # FIXME it looks like Extensions __getattr__ use a soft way.
+    validator_option = options.Extensions[validator_field]
     if not validator_option:
         # do not check if no validator option
         return
