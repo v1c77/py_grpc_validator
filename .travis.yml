@@ -29,4 +29,9 @@ notifications:
   email: false
 
 after_success:
-  - codecov
+  - |
+    set -ex
+    TOX_PY="py${TRAVIS_PYTHON_VERSION/./}"
+    .tox/$TOX_PY/bin/coverage xml
+    .tox/$TOX_PY/bin/codecov -e TOX_PY
+    set +x

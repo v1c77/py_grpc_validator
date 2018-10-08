@@ -1,0 +1,3 @@
+[run]
+branch = true
+source = grpc_proto_validator,test
