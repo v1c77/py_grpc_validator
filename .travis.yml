@@ -1,0 +1,37 @@
+language: python
+sudo: required
+dist: trusty
+cache: pip
+os: linux
+
+python:
+  - '2.7'
+  - '3.6'
+
+install: travis_retry pip install -U tox | cat
+
+before_script:
+  echo "grpc validator ci."
+
+script:
+  - |
+    set -ex
+    TOX_PY="py${TRAVIS_PYTHON_VERSION/./}"
+    tox -e ${TOX_PY}
+    set +x
+
+branches:
+  only:
+    - master
+    - auto
+
+notifications:
+  email: false
+
+after_success:
+  - |
+    set -ex
+    TOX_PY="py${TRAVIS_PYTHON_VERSION/./}"
+    .tox/$TOX_PY/bin/coverage xml
+    .tox/$TOX_PY/bin/codecov -e TOX_PY
+    set +x
