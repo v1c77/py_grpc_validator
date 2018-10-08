@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+
+import re
+import six
 import logging
 from functools import wraps
 
-import six
 from grpc import StatusCode
-
 from grpc_proto_validator.validator_pb2 import (
     FieldValidator,
     field as validator_field,
@@ -20,8 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def validate_regex(value, limit):
-    # TODO(vici) to check value with a escaped regex string.
-    return True
+    return re.match(limit, value)
 
 
 def validate_gt(value, limit):

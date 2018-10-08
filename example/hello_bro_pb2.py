@@ -12,7 +12,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-import validator_pb2 as validator__pb2
+import grpc_proto_validator.validator_pb2 as validator__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hellobro',
   syntax='proto3',
   serialized_options=_b('\242\002\003HLW'),
-  serialized_pb=_b('\n\x0fhello_bro.proto\x12\x08hellobro\x1a\x0fvalidator.proto\".\n\x03\x44\x61u\x12\'\n\x04mail\x18\x01 \x01(\tB\x19\x9a\xe0\x1f\x15\n\x13^1(3|4|5|7|8)\\d{9}$\"\xe6\x01\n\x0cHelloRequest\x12\x14\n\x04name\x18\x01 \x01(\tB\x06\x9a\xe0\x1f\x02`\x01\x12\x15\n\x03\x61ge\x18\x02 \x01(\x05\x42\x08\x9a\xe0\x1f\x04\x10\x32\x18\x64\x12\x33\n\x05\x63hild\x18\x03 \x01(\x0b\x32\x1c.hellobro.HelloRequest.ChildB\x06\x9a\xe0\x1f\x02P\x01\x12\x1a\n\x03\x64\x61u\x18\x04 \x01(\x0b\x32\r.hellobro.Dau\x12\x10\n\x08\x63\x61tegray\x18\x05 \x01(\t\x1a\x46\n\x05\x43hild\x12\x15\n\x04name\x18\x01 \x01(\tB\x07\x9a\xe0\x1f\x03\x88\x01\x04\x12&\n\x06weight\x18\x02 \x01(\x02\x42\x16\x9a\xe0\x1f\x12\x31\x33\x33\x33\x33\x33\x33N@9\x00\x00\x00\x00\x00\x00Y@\")\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\n\n\x02\x62y\x18\x02 \x01(\t2{\n\x03\x42ro\x12:\n\x08SayHello\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x12\x38\n\x06SayBye\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x42\x06\xa2\x02\x03HLWb\x06proto3')
+  serialized_pb=_b('\n\x0fhello_bro.proto\x12\x08hellobro\x1a\x0fvalidator.proto\"-\n\x03\x44\x61u\x12&\n\x04mail\x18\x01 \x01(\tB\x18\x9a\x42\x15\n\x13^1(3|4|5|7|8)\\d{9}$\"\xe1\x01\n\x0cHelloRequest\x12\x13\n\x04name\x18\x01 \x01(\tB\x05\x9a\x42\x02`\x01\x12\x14\n\x03\x61ge\x18\x02 \x01(\x05\x42\x07\x9a\x42\x04\x10\x32\x18\x64\x12\x32\n\x05\x63hild\x18\x03 \x01(\x0b\x32\x1c.hellobro.HelloRequest.ChildB\x05\x9a\x42\x02P\x01\x12\x1a\n\x03\x64\x61u\x18\x04 \x01(\x0b\x32\r.hellobro.Dau\x12\x10\n\x08\x63\x61tegray\x18\x05 \x01(\t\x1a\x44\n\x05\x43hild\x12\x14\n\x04name\x18\x01 \x01(\tB\x06\x9a\x42\x03\x88\x01\x04\x12%\n\x06weight\x18\x02 \x01(\x02\x42\x15\x9a\x42\x12\x31\x33\x33\x33\x33\x33\x33N@9\x00\x00\x00\x00\x00\x00Y@\")\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\n\n\x02\x62y\x18\x02 \x01(\t2{\n\x03\x42ro\x12:\n\x08SayHello\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x12\x38\n\x06SayBye\x12\x16.hellobro.HelloRequest\x1a\x14.hellobro.HelloReply\"\x00\x42\x06\xa2\x02\x03HLWb\x06proto3')
   ,
   dependencies=[validator__pb2.DESCRIPTOR,])
 
@@ -40,7 +40,7 @@ _DAU = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=_b('\232\340\037\025\n\023^1(3|4|5|7|8)\\d{9}$'), file=DESCRIPTOR),
+      serialized_options=_b('\232B\025\n\023^1(3|4|5|7|8)\\d{9}$'), file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -54,7 +54,7 @@ _DAU = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=46,
-  serialized_end=92,
+  serialized_end=91,
 )
 
 
@@ -71,14 +71,14 @@ _HELLOREQUEST_CHILD = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=_b('\232\340\037\003\210\001\004'), file=DESCRIPTOR),
+      serialized_options=_b('\232B\003\210\001\004'), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='weight', full_name='hellobro.HelloRequest.Child.weight', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=_b('\232\340\037\0221333333N@9\000\000\000\000\000\000Y@'), file=DESCRIPTOR),
+      serialized_options=_b('\232B\0221333333N@9\000\000\000\000\000\000Y@'), file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -91,8 +91,8 @@ _HELLOREQUEST_CHILD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=255,
-  serialized_end=325,
+  serialized_start=251,
+  serialized_end=319,
 )
 
 _HELLOREQUEST = _descriptor.Descriptor(
@@ -108,21 +108,21 @@ _HELLOREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=_b('\232\340\037\002`\001'), file=DESCRIPTOR),
+      serialized_options=_b('\232B\002`\001'), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='age', full_name='hellobro.HelloRequest.age', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=_b('\232\340\037\004\0202\030d'), file=DESCRIPTOR),
+      serialized_options=_b('\232B\004\0202\030d'), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='child', full_name='hellobro.HelloRequest.child', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=_b('\232\340\037\002P\001'), file=DESCRIPTOR),
+      serialized_options=_b('\232B\002P\001'), file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='dau', full_name='hellobro.HelloRequest.dau', index=3,
       number=4, type=11, cpp_type=10, label=1,
@@ -149,8 +149,8 @@ _HELLOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=95,
-  serialized_end=325,
+  serialized_start=94,
+  serialized_end=319,
 )
 
 
@@ -187,8 +187,8 @@ _HELLOREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=327,
-  serialized_end=368,
+  serialized_start=321,
+  serialized_end=362,
 )
 
 _HELLOREQUEST_CHILD.containing_type = _HELLOREQUEST
@@ -243,8 +243,8 @@ _BRO = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=370,
-  serialized_end=493,
+  serialized_start=364,
+  serialized_end=487,
   methods=[
   _descriptor.MethodDescriptor(
     name='SayHello',

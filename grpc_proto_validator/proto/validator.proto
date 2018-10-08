@@ -7,7 +7,7 @@ import "google/protobuf/descriptor.proto";
 
 // TODO(vici) google not support to regist a unique extension Id for new plugin from now on.
 extend google.protobuf.FieldOptions {
-  FieldValidator field = 65027;
+  FieldValidator field = 1059;
 }
 
 message FieldValidator {

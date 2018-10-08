@@ -23,7 +23,7 @@ def run():
             'weight': 66.66,
         },
         'dau': {
-            'mail': '13522455567'
+            'mail': '135224555671'
         }
     }
     hello_requst = ParseDict(

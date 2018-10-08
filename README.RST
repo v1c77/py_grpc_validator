@@ -17,26 +17,20 @@ TODO:
 How To
 ######
 
-1. install (TODO: setup.py needed.)
+1. install
 
 .. code-block:: bash
 
-    git clone https://github.com/v1c77/py_grpc_validator.git
-    cd py_grpc_validator
-    pip install --editable .
+    pip install grpc-proto-validator
+
+2. copy **validator.proto** to your project proto path and do protoc.(TODO a
+cli help to copy or build proto.)
+
+ The **validator.proto** is included in this package, you can find it in
+ python site-packages path.
 
 
-2. copy **validator.proto** to your project proto path and do protoc.
-
- a example on how to generate the grpc files.
-
-.. code-block:: bash
-
-    $ python -m grpc_tools.protoc \
-      --proto_path={/path/to/validator/proto} \
-      --proto_path={/path/to/your/project/proto} \
-      --python_out={/path/to/project/src} \
-      {/path/to/validator/proto}/validator.proto
+A example on how to generate the grpc files:
 
 .. code-block:: bash
 
@@ -45,11 +39,28 @@ How To
       --proto_path={/path/to/your/project/proto} \
       --python_out={/path/to/project/src} \
       --grpc_python_out={/path/to/project/src} \
-      example/proto/hello_bro.proto
+      path/to/your.proto
 
-3. change your service code. (just a little.)
 
-to validate all the service handlers:
+
+3. change your service and \*_pb2 code.
+
+To avoid protobuf import error, change one line in the generated
+python file(like `hello_bro_pb2.py`).
+
+from:
+
+.. code-block:: python
+
+    import validator_pb2 as validator__pb2
+
+to:
+
+.. code-block:: python
+
+    import grpc_proto_validator.validator_pb2 as validator__pb2.
+
+Then create service with validator:
 
 .. code-block:: python
 
@@ -63,7 +74,7 @@ to validate all the service handlers:
             ...
 
 
-Also you can select individual service handler to do the field check:
+Also, you can select individual service handler to do the field check:
 
 .. code-block:: python
 
@@ -79,6 +90,8 @@ Also you can select individual service handler to do the field check:
         @validator_wrap
         def behaviour2(self, request, context):
             ...
+
+
 
 Notice
 ######
