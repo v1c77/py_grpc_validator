@@ -185,13 +185,12 @@ def _get_human_error(conditions):
 def validate_field(value, field_desc):
     """return nothing or raise valueError"""
 
-    # TODO(vici) handle sub message and nested_message
     if field_desc.message_type:
         validate_message(value)
 
     # iter all field option check
     options = field_desc.GetOptions()
-    # FIXME it looks like Extensions __getattr__ use a soft way.
+    # FIXME it looks like Extensions.__getattr__ use a soft way.
     validator_option = options.Extensions[validator_field]
     if not validator_option:
         # do not check if no validator option
