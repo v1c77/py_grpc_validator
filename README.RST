@@ -4,6 +4,8 @@ plugin of validate request field for python grpc server.
 
 .. image:: https://travis-ci.com/v1c77/py_grpc_validator.svg?branch=master
     :target: https://travis-ci.com/v1c77/py_grpc_validator
+.. image:: https://codecov.io/gh/v1c77/py_grpc_validator/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/v1c77/py_grpc_validator
 
 TODO:
     - type hint for different field type.(such as only string field can do
