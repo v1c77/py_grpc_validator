@@ -1,2 +1,24 @@
 include README.RST
-include proto/*
+include Changelog
+include LICENSE
+include MANIFEST.in
+include TODO
+include setup.cfg
+include setup.py
+
+recursive-include test *.py *.rst
+recursive-include docs *
+recursive-include extra/bash-completion *
+recursive-include extra/centos *
+recursive-include extra/generic-init.d *
+recursive-include extra/macOS *
+recursive-include extra/supervisord *
+recursive-include extra/systemd *
+recursive-include extra/zsh-completion *
+recursive-include examples *
+recursive-include requirements *.txt *.rst
+
+recursive-exclude docs/_build *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .*.sw[a-z]

@@ -89,6 +89,7 @@ setuptools.setup(
     include_package_data=True,
     packages=['grpc_proto_validator'],
     zip_safe=False,
+    cmdclass={'test': pytest},
     platforms='any',
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     classifiers=[
