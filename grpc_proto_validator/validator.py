@@ -4,7 +4,9 @@ import re
 import six
 import logging
 from functools import wraps
+from collections import namedtuple
 
+from google.protobuf.descriptor import FieldDescriptor
 from grpc import StatusCode
 from grpc_proto_validator.validator_pb2 import (
     FieldValidator,
@@ -78,18 +80,36 @@ def validate_length_eq(value, limit):
     return len(text) == limit
 
 
+class _FieldValidatorMeta(namedtuple('_FieldValidatorMeta',
+                                     ('method', 'adapt', 'human_error'))):
+    pass
+
+
 DESC = FieldValidator.DESCRIPTOR
 VALIDATOR_MAP = {
-    DESC.fields_by_name['regex'].number: validate_regex,
-    DESC.fields_by_name['int_gt'].number: validate_gt,
-    DESC.fields_by_name['int_lt'].number: validate_lt,
-    DESC.fields_by_name['int_gte'].number: validate_gte,
-    DESC.fields_by_name['int_lte'].number: validate_lte,
-    DESC.fields_by_name['float_gt'].number: validate_float_gt,
-    DESC.fields_by_name['float_lt'].number: validate_float_lt,
-    DESC.fields_by_name['float_gte'].number: validate_float_gte,
-    DESC.fields_by_name['float_lte'].number: validate_float_lte,
-    DESC.fields_by_name['msg_exists'].number: validate_msg_exists,
+    DESC.fields_by_name['regex'].number:
+        _FieldValidatorMeta(
+            validate_regex,
+            FieldDescriptor.TYPE_STRING, "must match"),
+    DESC.fields_by_name['int_gt'].number:
+        # TODO(vici) from pure python type to protobuf descriptor type.
+        _FieldValidatorMeta(validate_gt, six.integer_types, "must be greater than"),
+    DESC.fields_by_name['int_lt'].number:
+        _FieldValidatorMeta(validate_lt, six.integer_types, "must be less than"),
+    DESC.fields_by_name['int_gte'].number:
+        _FieldValidatorMeta(validate_gte, six.integer_types, "must be equal to or greater than"),
+    DESC.fields_by_name['int_lte'].number:
+        _FieldValidatorMeta(validate_lte, six.integer_types, "must be equal to or less than"),
+    DESC.fields_by_name['float_gt'].number:
+        _FieldValidatorMeta(validate_float_gt, float, "must be greater than"),
+    DESC.fields_by_name['float_lt'].number:
+        _FieldValidatorMeta(validate_float_lt, float, "must be less than"),
+    DESC.fields_by_name['float_gte'].number:
+        _FieldValidatorMeta(validate_float_gte, float, "must be equal to or greater than"),
+    DESC.fields_by_name['float_lte'].number:
+        _FieldValidatorMeta(validate_float_lte, six.integer_types, "must be equal to or less than"),
+    DESC.fields_by_name['msg_exists'].number:
+        _FieldValidatorMeta(validate_msg_exists, "TODO nested message", ""),
     DESC.fields_by_name['string_not_empty'].number: validate_string_not_empty,  # NOQA
     DESC.fields_by_name['repeated_count_min'].number: validate_repeated_count_min,  # NOQA
     DESC.fields_by_name['repeated_count_max'].number: validate_repeated_count_max,  # NOQA
@@ -98,9 +118,10 @@ VALIDATOR_MAP = {
     DESC.fields_by_name['length_eq'].number: validate_length_eq,
 }
 
+# TODO(vici) {value} ______ {limit}
 
 def get_validator_by_number(option_number):
-    return VALIDATOR_MAP.get(option_number)
+    return VALIDATOR_MAP.get(option_number).method
 
 
 def terminate(context, code, detail):
