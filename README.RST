@@ -32,8 +32,29 @@ cli help to copy or build proto.)
 
 A example on how to generate the grpc files:
 
-write a proto file like:
-https://github.com/v1c77/py_grpc_validator/blob/9253bdc4fbac35b5b1188ff8c964de338f8c2c34/example/proto/hello_bro.proto#L19-L34
+write grpc request message like:
+
+.. code-block:: proto
+
+    message HelloRequest {
+        string name = 1 [(validator.field) = {string_not_empty: True}];
+        int32 age = 2 [(validator.field) = {int_gt: 50, int_lt: 100}];
+
+
+        message Child {
+        string name = 1 [(validator.field) = {length_eq: 4}];
+        float weight = 2 [(validator.field) = {float_gt: 60.4, float_lt: 100}];
+        }
+
+
+        Child child = 3 [(validator.field) = {msg_exists: True}];
+        Dau dau = 4;
+        string categray = 5;
+
+
+    }
+
+compile:
 
 .. code-block:: bash
 
