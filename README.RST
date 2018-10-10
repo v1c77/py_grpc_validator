@@ -32,6 +32,9 @@ cli help to copy or build proto.)
 
 A example on how to generate the grpc files:
 
+write a proto file like:
+https://github.com/v1c77/py_grpc_validator/blob/9253bdc4fbac35b5b1188ff8c964de338f8c2c34/example/proto/hello_bro.proto#L19-L34
+
 .. code-block:: bash
 
     $ python -m grpc_tools.protoc \
